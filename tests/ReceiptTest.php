@@ -5,7 +5,15 @@ require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_
 use PHPUnit\Framework\TestCase;
 use TDD\Receipt;
 
+
 class ReceiptTest extends TestCase {
+    public function setUp() {
+        $this->Receipt = new Receipt();
+    }
+
+    public function tearDown() {
+        unset($this->Receipt);
+    }
     public function testTotal() {
         $Receipt = new Receipt(); // Loome objekti
         $this->assertEquals( //PHPUniti testi meetod
