@@ -15,10 +15,11 @@ class ReceiptTest extends TestCase {
         unset($this->Receipt);
     }
     public function testTotal() {
-        $Receipt = new Receipt(); // Loome objekti
+        $input = [0,2,5,8];
+        $output = $this->Receipt->total($input);// Loome objekti
         $this->assertEquals( //PHPUniti testi meetod
             15, // oodatav tulemus
-            $Receipt->total([0,2,5,8]), //Kutsume objektist meetodi Total ja anname ette massiivi numbritest
+            $output, //Kutsume objektist meetodi Total ja anname ette massiivi numbritest
             'When summing the total should equal 15' //Vea puhul tagastatav teade
         );
     }
