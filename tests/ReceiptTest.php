@@ -5,7 +5,6 @@ require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_
 use PHPUnit\Framework\TestCase;
 use TDD\Receipt;
 
-
 class ReceiptTest extends TestCase {
     public function setUp() {
         $this->Receipt = new Receipt();
@@ -14,18 +13,28 @@ class ReceiptTest extends TestCase {
     public function tearDown() {
         unset($this->Receipt);
     }
-    public function testTotal() {
-        $input = [0,2,5,8];
+
+    /**
+     * @dataProvider provideTotal
+     */
+    public function testTotal($items, $expected) {
         $coupon = null;
-        $output = $this->Receipt->total($input, $coupon);// Loome objekti
-        $this->assertEquals( //PHPUniti testi meetod
-            15, // oodatav tulemus
-            $output, //Kutsume objektist meetodi Total ja anname ette massiivi numbritest
-            'When summing the total should equal 15' //Vea puhul tagastatav teade
+        $output = $this->Receipt->total($items, $coupon);
+        $this->assertEquals(
+            $expected,
+            $output,
+            "When summing the total should equal {$expected}"
         );
     }
 
-    public function testTotalAndCoupon(){
+    public function provideTotal() {
+        return [
+            [[1,2,5,8], 16],
+            [[-1,2,5,8], 14],
+            [[1,2,8], 11],
+        ];
+    }
+    public function testTotalAndCoupon() {
         $input = [0,2,5,8];
         $coupon = 0.20;
         $output = $this->Receipt->total($input, $coupon);
@@ -35,7 +44,6 @@ class ReceiptTest extends TestCase {
             'When summing the total should equal 12'
         );
     }
-
     public function testPostTaxTotal() {
         $items = [1,2,5,8];
         $tax = 0.20;
@@ -55,12 +63,12 @@ class ReceiptTest extends TestCase {
         $this->assertEquals(11.00, $result);
     }
 
-    public function testTax(){
+    public function testTax() {
         $inputAmount = 10.00;
         $taxInput = 0.10;
         $output = $this->Receipt->tax($inputAmount, $taxInput);
         $this->assertEquals(
-            1.0,
+            1.00,
             $output,
             'The tax calculation should equal 1.00'
         );
