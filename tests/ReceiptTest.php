@@ -26,15 +26,16 @@ class ReceiptTest extends TestCase {
             "When summing the total should equal {$expected}" //Vea puhul tagastatav teade
         );
     }
-
+    // testib total meetodit
     public function provideTotal() {
         return [
-            // Lisatud võti, mille järgi saab testi filtreerida 
+            // Lisatud võti, mille järgi saab testi filtreerida
             'ints total 16' => [[1,2,5,8], 16],
             [[-1,2,5,8], 14],
             [[1,2,8], 11],
         ];
     }
+    //Testib Receipt Total meetodit koos kupongiga
     public function testTotalAndCoupon() {
         $input = [0,2,5,8];
         $coupon = 0.20;
@@ -45,6 +46,16 @@ class ReceiptTest extends TestCase {
             'When summing the total should equal 12'
         );
     }
+
+    //Testib total meetodi exceptionit
+    public function testTotalException(){
+        $input = [0,2,5,8];
+        $coupon = 1.20;
+        $this->expectException('BadMethodCallException');
+        $this->Receipt->total($input, $coupon);
+    }
+
+    //testib total maksu meetodit
     public function testPostTaxTotal() {
         $items = [1,2,5,8];
         $tax = 0.20;
@@ -63,7 +74,7 @@ class ReceiptTest extends TestCase {
         $result = $Receipt->postTaxTotal([1,2,5,8], 0.20, null);
         $this->assertEquals(11.00, $result);
     }
-
+    //testib maksu meetodit
     public function testTax() {
         $inputAmount = 10.00;
         $taxInput = 0.10;
