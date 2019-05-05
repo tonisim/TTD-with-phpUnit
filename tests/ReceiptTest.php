@@ -19,17 +19,18 @@ class ReceiptTest extends TestCase {
      */
     public function testTotal($items, $expected) {
         $coupon = null;
-        $output = $this->Receipt->total($items, $coupon);
-        $this->assertEquals(
-            $expected,
-            $output,
-            "When summing the total should equal {$expected}"
+        $output = $this->Receipt->total($items, $coupon);  // Loome objekti
+        $this->assertEquals( //phpUniti testi meetod
+            $expected, // oodatav tulemus
+            $output, //Kutsume objektist meetodi Total ja anname ette massiivi numbritest
+            "When summing the total should equal {$expected}" //Vea puhul tagastatav teade
         );
     }
 
     public function provideTotal() {
         return [
-            [[1,2,5,8], 16],
+            // Lisatud võti, mille järgi saab testi filtreerida 
+            'ints total 16' => [[1,2,5,8], 16],
             [[-1,2,5,8], 14],
             [[1,2,8], 11],
         ];
