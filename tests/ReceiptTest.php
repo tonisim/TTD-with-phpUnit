@@ -60,9 +60,12 @@ class ReceiptTest extends TestCase {
         $items = [1,2,5,8];
         $tax = 0.20;
         $coupon = null;
+        // Luuakse uus  Mock Receipt objekt
         $Receipt = $this->getMockBuilder('TDD\Receipt')
             ->setMethods(['tax', 'total'])
             ->getMock();
+
+        // Meetod, mida kutsutakse välja üks kord ning on lisatud oodatud argumendid
         $Receipt->expects($this->once())
             ->method('total')
             ->with($items, $coupon)
@@ -71,6 +74,12 @@ class ReceiptTest extends TestCase {
             ->method('tax')
             ->with(10.00, $tax)
             ->will($this->returnValue(1.00));
+
+        /*
+        Kutsutakse välja Receipt objektist postTaxTotal meetod, kus muutujate summa on 16 ja tax on 0.2, aga
+        kontrollitrakse seda, et väärtus oleks 11 ja test oleks läbitud, sest varasemalt oli
+        määratud muutujate summaks 11 ja tax oli 0.1
+        */
         $result = $Receipt->postTaxTotal([1,2,5,8], 0.20, null);
         $this->assertEquals(11.00, $result);
     }
